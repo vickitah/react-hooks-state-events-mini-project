@@ -2,14 +2,18 @@ import React, { useState } from "react";
 
 function NewTaskForm({ categories, onTaskFormSubmit }) {
   const [text, setText] = useState("");
-  const [category, setCategory] = useState("Code");
+  const [category, setCategory] = useState(categories[1]); // Default to first non-All
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    onTaskFormSubmit({ text, category });
+    const newTask = {
+      text,
+      category,
+    };
+    onTaskFormSubmit(newTask);
     setText("");
-    setCategory("Code");
-  }
+    setCategory(categories[1]); // Reset form
+  };
 
   return (
     <form className="new-task-form" onSubmit={handleSubmit}>
@@ -30,10 +34,10 @@ function NewTaskForm({ categories, onTaskFormSubmit }) {
           onChange={(e) => setCategory(e.target.value)}
         >
           {categories
-            .filter((cat) => cat !== "All")
-            .map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
+            .filter((c) => c !== "All")
+            .map((c) => (
+              <option key={c} value={c}>
+                {c}
               </option>
             ))}
         </select>
